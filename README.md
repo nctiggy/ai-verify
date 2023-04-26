@@ -58,3 +58,22 @@ and the main deployment pod
 ### ingress.yaml
 This is where we define what url we will use as well as any information about
 generating tls certs for the url
+
+## Other notes
+I generated all the default manifest files as a starting place running the
+following commands:
+```
+kubectl create namespace ai-verify --dry-run=client --output=yaml > namespace.yaml
+kubectl create deployment ai-verify --image=harbor.web.craigcloud.io/cnvrg/ai-verify-custom:latest --port=4200 --dry-run=client --output=yaml --namespace=ai-verify > deployment.yaml
+kubectl expose deployment ai-verify --type=ClusterIP --port=4200 --name=ai-verify --namespace=ai-verify --dry-run=client --output=yaml > service.yaml
+kubectl create ingress ai-verify --class=contour --rule="ai-verify.web.craigcloud.io/*=ai-verify:4200,tls=ai-verify" --annotation="cert-manager.io/cluster-issuer=letsencrypt-prod" --annotation="ingress.kubernetes.io/force-ssl-redirect=true" --annotation="kubernetes.io/tls-acme=true" --dry-run=client -n ai-verify -o yaml > ingress.yaml
+```
+I noticed that this container is running:
+- redis
+- mongodb
+- ai-verify
+It is basically a full app unto itself, this is a good reason why cnvrg would
+not be a great target to run this. It really should be broken apart into three
+different kubernetes deployments (redis/mongo/ai-verify). This would allow you
+to create persistence for the mongo and redis pieces to allow ai-verify to die
+and restart without losing any progress!
