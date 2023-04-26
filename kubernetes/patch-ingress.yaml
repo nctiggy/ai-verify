@@ -1,0 +1,27 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod #only use if you have cert manager
+    ingress.kubernetes.io/force-ssl-redirect: "true" #only use if tls certs exist
+    kubernetes.io/tls-acme: "true" #only use if you have cert manager
+  name: ai-verify
+  namespace: ai-verify
+spec:
+  ingressClassName: contour #changeme
+  rules:
+  - host: ai-verify.web.craigcloud.io #changeme
+    http:
+      paths:
+      - backend:
+          service:
+            name: ai-verify
+            port:
+              number: 4200
+        path: /
+        pathType: Prefix
+  tls: #only use if you have cert manager
+  - hosts: #only use if you have cert manager
+    - ai-verify.web.craigcloud.io #changeme #only use if you have cert manager
+    secretName: ai-verify #only use if you have cert manager

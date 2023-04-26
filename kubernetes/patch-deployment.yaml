@@ -1,0 +1,15 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-verify
+  namespace: ai-verify
+spec:
+  template:
+    spec:
+      containers:
+      - image: harbor.web.craigcloud.io/cnvrg/ai-verify-custom:latest #changeme
+        name: ai-verify-image
+        ports:
+        - containerPort: 4200
+        resources: {}

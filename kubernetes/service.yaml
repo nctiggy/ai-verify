@@ -1,0 +1,19 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ai-verify
+  name: ai-verify
+  namespace: ai-verify
+spec:
+  ports:
+  - port: 4200
+    protocol: TCP
+    targetPort: 4200
+  selector:
+    app: ai-verify
+  type: ClusterIP
+status:
+  loadBalancer: {}

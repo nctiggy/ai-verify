@@ -1,0 +1,21 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ai-verify
+  name: ai-verify
+  namespace: ai-verify
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ai-verify
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: ai-verify
+status: {}
