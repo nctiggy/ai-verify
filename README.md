@@ -72,6 +72,7 @@ I noticed that this container is running:
 - redis
 - mongodb
 - ai-verify
+
 It is basically a full app unto itself, this is a good reason why cnvrg would
 not be a great target to run this. It really should be broken apart into three
 different kubernetes deployments (redis/mongo/ai-verify). This would allow you
